@@ -22,6 +22,6 @@ This Django web application allows users to generate high-quality blog articles 
 - AI-Powered Blog Generation: Uses Groq LLaMA 3.3 for high-quality content.
 - Asynchronous Task Handling: Implements Celery + Redis for background processing.
 
-Please use two terminals for this project as it use celery for generating blog from the link.
-For terminal1, file_path/project> python manage.py runserver
-For terminal2, file_path/project> celery -A backend worker --pool=solo -l info  ( works for Windows)
+# Note: please use two terminals for this project as it use celery for generating blog from the link.
+- For terminal1, file_path/project> python manage.py runserver
+- For terminal2, file_path/project> celery -A backend worker --pool=solo -l info  ( works for Windows)
