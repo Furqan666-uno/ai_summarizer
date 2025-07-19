@@ -1,0 +1,92 @@
+{% extends 'base.html' %}
+{% load widget_tweaks %}
+{% block title %}Sign Up{% endblock %}
+
+{% block content %}
+<div class="row justify-content-center">
+    <div class="col-md-5">
+        <div class="card shadow p-4">
+            <h2 class="text-center mb-4">Sign Up</h2>
+
+            {% if form.non_field_errors %}
+            <div class="alert alert-danger" role="alert">
+                {% for error in form.non_field_errors %}
+                    {{ error }}
+                {% endfor %}
+            </div>
+            {% endif %}
+
+
+            <form method="POST">
+                {% csrf_token %}
+                <div class="mb-3">
+                    <label class="form-label">Username</label>
+                    {{ form.username|add_class:"form-control" }}
+                    {% if form.username.errors %}
+                        <div class="text-danger small">
+                            {{ form.username.errors.0 }}
+                        </div>
+                    {% endif %}
+                </div>
+                
+                <div class="mb-3">
+                    <label class="form-label">Email</label>
+                    {{ form.email|add_class:"form-control" }}
+                    {% if form.email.errors %}
+                        <div class="text-danger small">
+                            {{ form.email.errors.0 }}
+                        </div>
+                    {% endif %}
+                </div>
+
+                <div class="mb-3 position-relative">
+                    <label class="form-label">Password</label>
+                    <div class="input-group">
+                        {{ form.password1|add_class:"form-control" }}
+                        <button type="button" class="btn btn-outline-secondary" onclick="togglePassword('id_password1')">
+                            Show
+                        </button>
+                    </div>
+                    {% if form.password1.errors %}
+                        <div class="text-danger small">{{ form.password1.errors.0 }}</div>
+                    {% endif %}
+                </div>
+
+                <div class="mb-3 position-relative">
+                    <label class="form-label">Confirm Password</label>
+                    <div class="input-group">
+                        {{ form.password2|add_class:"form-control" }}
+                        <button type="button" class="btn btn-outline-secondary" onclick="togglePassword('id_password2')">
+                            Show
+                        </button>
+                    </div>
+                    {% if form.password2.errors %}
+                        <div class="text-danger small">{{ form.password2.errors.0 }}</div>
+                    {% endif %}
+                </div>
+
+                <button class="btn btn-success w-100">Sign Up</button>
+            </form>
+
+            <p class="text-center mt-3">
+                Already have an account? <a href="{% url 'login' %}">Login</a>
+            </p>
+        </div>
+    </div>
+</div>
+
+<script>
+function togglePassword(fieldId) {
+    const field = document.getElementById(fieldId);
+    const button = event.target;
+    if (field.type === "password") {
+        field.type = "text";
+        button.textContent = "Hide";
+    } else {
+        field.type = "password";
+        button.textContent = "Show";
+    }
+}
+</script>
+
+{% endblock %}

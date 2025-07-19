@@ -1,0 +1,69 @@
+{% extends 'base.html' %}
+{% block title %}Blog List{% endblock %}
+{% block content %}
+
+<div class="container mt-4">
+    <h2 class="mb-4">My Blogs</h2>
+
+    <!-- Search Form -->
+    <form method="GET" class="mb-3">
+        <div class="input-group">
+            <input type="text" name="q" value="{{ query }}" class="form-control" placeholder="Search blogs...">
+            <button class="btn btn-primary" type="submit">Search</button>
+        </div>
+    </form>
+
+    <!-- Blog List -->
+    {% if page_obj %}
+        <div class="list-group">
+            {% for article in page_obj %}
+                <div class="list-group-item mb-2 d-flex justify-content-between align-items-start">
+                    <div>
+                        <a href="{% url 'blog-details' article.id %}" class="text-decoration-none text-dark">
+                            <h5 class="mb-1">{{ article.youtube_title|truncatechars:80 }}</h5>
+                            <p class="mb-1 text-muted">{{ article.generated_content|truncatechars:130 }}</p>
+                        </a>
+                    </div>
+                    <!-- Delete Button -->
+                    <form method="POST" action="{% url 'blog-delete' article.id %}" onsubmit="return confirm('Are you sure you want to delete this blog?');">
+                        {% csrf_token %}
+                        <button class="btn btn-sm btn-danger">Delete</button>
+                    </form>
+                </div>
+            {% empty %}
+                <p>No blogs found.</p>
+            {% endfor %}
+        </div>
+
+        <!-- Pagination -->
+        <nav class="mt-4">
+            <ul class="pagination justify-content-center">
+                {% if page_obj.has_previous %}
+                    <li class="page-item">
+                        <a class="page-link" href="?q={{ query }}&page={{ page_obj.previous_page_number }}">Previous</a>
+                    </li>
+                {% else %}
+                    <li class="page-item disabled"><span class="page-link">Previous</span></li>
+                {% endif %}
+
+                {% for num in page_obj.paginator.page_range %}
+                    {% if page_obj.number == num %}
+                        <li class="page-item active"><span class="page-link">{{ num }}</span></li>
+                    {% else %}
+                        <li class="page-item"><a class="page-link" href="?q={{ query }}&page={{ num }}">{{ num }}</a></li>
+                    {% endif %}
+                {% endfor %}
+
+                {% if page_obj.has_next %}
+                    <li class="page-item">
+                        <a class="page-link" href="?q={{ query }}&page={{ page_obj.next_page_number }}">Next</a>
+                    </li>
+                {% else %}
+                    <li class="page-item disabled"><span class="page-link">Next</span></li>
+                {% endif %}
+            </ul>
+        </nav>
+    {% endif %}
+</div>
+
+{% endblock %}

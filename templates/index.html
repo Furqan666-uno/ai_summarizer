@@ -1,0 +1,120 @@
+{% extends 'base.html' %}
+{% block title %}Home Page{% endblock %}
+
+{% block content %}
+<body class="bg-light">
+
+    <!-- Main Container -->
+    <div class="container mt-3">
+        <div class="card shadow-lg p-4 mx-auto" style="max-width: 800px;">
+            
+            <!-- Intro Section -->
+            <div class="text-center mb-4">
+                <h2 class="fw-bold">Welcome to the AI Blog Generator</h2>
+                <p class="text-muted">
+                    Simply paste a YouTube link below and generate high-quality blog articles from YouTube videos using AI
+                </p>
+            </div>
+
+            <!-- Input Section -->
+            <div class="mb-4">
+                <label for="youtubeLink" class="form-label fw-semibold">Enter YouTube Video Link</label>
+                <div class="input-group">
+                    <input id="youtubeLink" type="url" class="form-control" placeholder="Paste YouTube link here...">
+                    <button id="generateBlogButton" class="btn btn-primary">Generate</button>
+                </div>
+            </div>
+
+            <!-- Loading Spinner -->
+            <div id="loading-circle" class="text-center my-3" style="display: none;">
+                <div class="spinner-border text-primary" role="status">
+                    <span class="visually-hidden">Loading...</span>
+                </div>
+            </div>
+
+            <!-- Blog Output Section -->
+            <section class="mt-4">
+                <h4 class="fw-semibold mb-3">Generated Blog Article</h4>
+                <div id="blogContent" class="border rounded p-3 bg-light" style="min-height: 150px;"></div>
+            </section>
+        </div>
+    </div>
+
+ 
+<script>
+function getCSRFToken() {
+    return document.querySelector('meta[name="csrf-token"]').getAttribute('content');
+}
+
+document.getElementById('generateBlogButton').addEventListener('click', async () => {
+    const youtubeLink = document.getElementById('youtubeLink').value;
+    const blogContent = document.getElementById('blogContent');
+    const loadingCircle = document.getElementById('loading-circle');
+
+    if (youtubeLink.trim() === "") {
+        alert("Please enter a YouTube link.");
+        return;
+    }
+
+    // Show loader
+    loadingCircle.style.display = 'block';
+    blogContent.innerHTML = ''; // Clear previous content
+
+    const csrfToken = getCSRFToken();
+
+    try {
+        const response = await fetch('/generate-blog/', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+                'X-CSRFToken': csrfToken
+            },
+            body: JSON.stringify({ link: youtubeLink })
+        });
+
+        const data = await response.json();
+        if (!response.ok || !data.task_id) {
+            blogContent.innerHTML = `<div class="alert alert-danger">${data.error || "Something went wrong."}</div>`;
+            loadingCircle.style.display = 'none';
+            return;
+        }
+
+        const taskId = data.task_id;
+
+        const interval = setInterval(async () => {
+            const statusRes = await fetch(`/check-status/${taskId}/`);
+            const statusData = await statusRes.json();
+
+            // Show progress message
+            blogContent.innerHTML = `<p class="text-muted">${statusData.progress}</p>`;
+
+            if (statusData.state === 'SUCCESS') {
+                clearInterval(interval);
+                loadingCircle.style.display = 'none'; // Hide loader
+                blogContent.innerHTML = `
+                    <div class="card shadow p-4 mt-4">
+                        <h3 class="text-primary">${statusData.data.title}</h3>
+                        <p class="mt-3">${statusData.data.content.replace(/\n/g, '<br>')}</p>
+                    </div>`;
+            } else if (statusData.state === 'FAILURE') {
+                clearInterval(interval);
+                loadingCircle.style.display = 'none'; // Hide loader
+                blogContent.innerHTML = `<div class="alert alert-danger">${statusData.progress}</div>`;
+            }
+        }, 3000);
+
+    } catch (error) {
+        console.error("Error occurred:", error);
+        loadingCircle.style.display = 'none'; // Hide loader
+        blogContent.innerHTML = `
+            <div class="alert alert-danger mt-3">
+                Network error! Please try again later.
+            </div>`;
+    }
+});
+</script>
+
+
+
+</body>
+{% endblock %}
