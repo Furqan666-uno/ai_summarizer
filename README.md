@@ -1,10 +1,11 @@
 <img width="1919" height="838" alt="Screenshot 2025-08-18 215631" src="https://github.com/user-attachments/assets/b9e50b72-a08c-4a61-9338-e49ab6e6a4aa" />
 
-<img width="1919" height="879" alt="image" src="https://github.com/user-attachments/assets/9e80f27a-2441-4e2a-8ced-07a650534d96" />
+<img width="1919" height="835" alt="Screenshot 2025-08-18 215921" src="https://github.com/user-attachments/assets/af1abf84-a84f-40ae-ad3e-eff281240e40" />
 
-<img width="1919" height="878" alt="image" src="https://github.com/user-attachments/assets/62fc0016-3808-4a99-93b7-2edd66b226be" />
+<img width="1919" height="842" alt="Screenshot 2025-08-18 215936" src="https://github.com/user-attachments/assets/523ecb18-9f90-4e77-99aa-72ba7daa3245" />
 
-<img width="1919" height="855" alt="image" src="https://github.com/user-attachments/assets/cedc1b0d-34e9-46fb-a59a-37dd6ea38058" />
+<img width="1919" height="847" alt="Screenshot 2025-08-18 215955" src="https://github.com/user-attachments/assets/13fd8237-51c4-4ef4-b33a-bf0b51bd406f" />
+
 
 
 # AI Summarizer 
