@@ -1,4 +1,4 @@
-<img width="1919" height="876" alt="image" src="https://github.com/user-attachments/assets/09adbe58-8446-40e5-85ea-a9263513d2b4" />
+<img width="1919" height="838" alt="Screenshot 2025-08-18 215631" src="https://github.com/user-attachments/assets/b9e50b72-a08c-4a61-9338-e49ab6e6a4aa" />
 
 <img width="1919" height="879" alt="image" src="https://github.com/user-attachments/assets/9e80f27a-2441-4e2a-8ced-07a650534d96" />
 
@@ -7,8 +7,8 @@
 <img width="1919" height="855" alt="image" src="https://github.com/user-attachments/assets/cedc1b0d-34e9-46fb-a59a-37dd6ea38058" />
 
 
-# AI Blog Generator 
-This Django web application allows users to generate high-quality blog articles from YouTube videos using AI. Simply paste a YouTube link, and the system will:
+# AI Summarizer 
+This Django web application allows users to generate high-quality summary of YouTube videos using AI. Simply paste a YouTube link, and the system will:
 
 - Download the video audio
 - Transcribe the content using AssemblyAI
