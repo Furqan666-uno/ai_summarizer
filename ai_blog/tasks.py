@@ -33,7 +33,7 @@ def generate_blog_task(self, yt_link, user_id):
         if not transcript.text:
             return {'error': 'Failed to transcribe audio'}
 
-        # ✅ Generate blog using Groq
+        # Generate blog using Groq
         client = Groq(api_key=settings.GROQ_API_KEY)
         prompt = f"Based on the following transcript, write a professional blog article:\n{transcript.text}"
 
