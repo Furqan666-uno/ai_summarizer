@@ -3,11 +3,10 @@ import os
 from celery import Celery
 from django.conf import settings
 
-
 # Set default Django settings
 os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'backend.settings')
 
-app = Celery('backend')
+app = Celery('backend') # backend= here, is the name od djangop project 
 
 # Load settings from Django and add namespace CELERY_
 app.config_from_object('django.conf:settings', namespace='CELERY')
